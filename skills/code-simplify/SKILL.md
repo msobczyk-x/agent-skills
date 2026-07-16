@@ -1,6 +1,6 @@
 ---
 name: code-simplify
-description: Simplify the code in the current diff without changing behavior — cut duplication and dead code, flatten nesting, reuse existing helpers, and improve readability. Use when asked to simplify, refactor for clarity, or tidy up recent changes.
+description: Simplify the code in the current diff without changing behavior. Use when asked to simplify, refactor for clarity, or tidy up recent changes.
 ---
 
 # Code Simplify
@@ -17,8 +17,10 @@ Make the **current diff** simpler and clearer without changing what it does.
    - collapse redundant intermediate variables and needless abstraction
    - prefer standard-library and existing project helpers over new code —
      search the codebase for an existing utility before writing one
-3. **Do not over-engineer.** Keep the change minimal; do not add layers,
-   options, or generality the diff doesn't need.
+
+   Done only when every changed hunk has been considered for simplification.
+3. **Keep it minimal (YAGNI).** The diff's current needs set the ceiling —
+   ship the smallest change that simplifies.
 4. **Preserve behavior and public interfaces.** Same inputs → same outputs,
    same side effects, same exported signatures unless explicitly asked.
 5. **Verify** after simplifying: run the project's tests / typecheck / linter
