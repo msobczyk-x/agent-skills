@@ -11,7 +11,9 @@ OpenCode with no per-tool duplication.
 |-------|--------------|
 | [`cleanup-comments`](skills/cleanup-comments/) | Trim noisy/redundant comments in the current diff so the code stays self-explanatory. |
 | [`code-simplify`](skills/code-simplify/) | Simplify the code in the current diff without changing behavior. |
+| [`code-refactor`](skills/code-refactor/) | Restructure JS/TS React & React Native code to one responsibility per file (split components/constants, `index.tsx` pattern). |
 | [`precommit-simplify`](skills/precommit-simplify/) | Runs `code-simplify` then `cleanup-comments` over staged changes before a commit. |
+| [`pragmatic-review`](skills/pragmatic-review/) | Senior-engineer code review of the branch diff against DRY/YAGNI/SOLID/Pragmatic Programmer; delegates to Vercel React skills for React/RN. |
 
 ## Install
 
