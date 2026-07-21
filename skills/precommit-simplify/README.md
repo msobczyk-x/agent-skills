@@ -1,7 +1,11 @@
 # precommit-simplify
 
-Tidies up staged changes before a commit by running `code-simplify` first, then
+Tidies up changes before a commit by running `code-simplify` first, then
 `cleanup-comments`, then reports what changed. Does not auto-commit.
+
+Works on staged, uncommitted, or all changes. If only one kind of change is
+present it uses that scope automatically; if both staged and uncommitted changes
+exist, it asks whether to tidy `all`, `staged`, or `uncommitted`.
 
 Requires the [`code-simplify`](../code-simplify/) and
 [`cleanup-comments`](../cleanup-comments/) skills to be installed too.
