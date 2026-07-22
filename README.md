@@ -14,6 +14,7 @@ OpenCode with no per-tool duplication.
 | [`code-refactor`](skills/code-refactor/) | Restructure JS/TS React & React Native code to one responsibility per file (split components/constants, `index.tsx` pattern). |
 | [`precommit-simplify`](skills/precommit-simplify/) | Runs `code-simplify` then `cleanup-comments` over staged changes before a commit. |
 | [`pragmatic-review`](skills/pragmatic-review/) | Senior-engineer code review of the branch diff against DRY/YAGNI/SOLID/Pragmatic Programmer; delegates to Vercel React skills for React/RN. |
+| [`commit-plan`](skills/commit-plan/) | Propose logical commits from the current diff — a Conventional Commit message + the files to stage for each. Advisory only; makes no changes. |
 
 ## Install
 
