@@ -34,14 +34,19 @@ the user explicitly asks in a follow-up.
 4. **Detect the repo's commit convention.** Sample recent history
    (`git log --oneline -20`) and follow whatever style it uses. Default to Conventional
    Commits (`type(scope): subject`) — the common types are `feat`, `fix`, `chore`, `docs`,
-   `refactor`, `test`, `perf`, `build`, `ci`.
+   `refactor`, `test`, `perf`, `build`, `ci`. Derive the **scope** from the working domain
+   the commit's files live in — typically the top-level directory or module (e.g. files
+   under `api/` → `feat(api): …`, files under `web/` → `fix(web): …`). If a commit's files
+   share no common domain, omit the scope (`type: subject`). Prefer whatever scope style
+   already appears in recent history.
 5. **Group into logical commits.** One group per cohesive, independently-committable change
    (e.g. a feature vs. an unrelated refactor vs. config). Keep related files together and
    separate unrelated concerns. Every in-scope file must land in exactly one group; flag any
    file whose placement is ambiguous.
 6. **For each group, output these four parts, in order:**
    1. **Commit message (short form)** — the Conventional Commit subject line
-      (`type(scope): subject`, imperative mood, ≤~72 chars).
+      (`type(scope): subject`, imperative mood, ≤~72 chars), with `scope` set to the working
+      domain/directory the files belong to (see step 4).
    2. A copy-paste `git add <files>` command listing every file in this commit's scope.
       Present it as a command for the user to run themselves; do not execute it.
    3. **Explanation** — a plain-language note on why these files belong together and what
