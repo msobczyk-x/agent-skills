@@ -42,9 +42,8 @@ the user explicitly asks in a follow-up.
 6. **For each group, output these four parts, in order:**
    1. **Commit message (short form)** — the Conventional Commit subject line
       (`type(scope): subject`, imperative mood, ≤~72 chars).
-   2. **`git add` files** — a copy-paste `git add <files>` command listing every file in
-      this commit's scope. Present it as a command for the user to run themselves; do not
-      execute it.
+   2. A copy-paste `git add <files>` command listing every file in this commit's scope.
+      Present it as a command for the user to run themselves; do not execute it.
    3. **Explanation** — a plain-language note on why these files belong together and what
       the commit accomplishes.
    4. **Long form of commit message** — the full message (subject, blank line, then a body
