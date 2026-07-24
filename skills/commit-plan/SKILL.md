@@ -47,8 +47,19 @@ the user explicitly asks in a follow-up.
    1. **Commit message (short form)** — the Conventional Commit subject line
       (`type(scope): subject`, imperative mood, ≤~72 chars), with `scope` set to the working
       domain/directory the files belong to (see step 4).
-   2. A copy-paste `git add <files>` command listing every file in this commit's scope.
-      Present it as a command for the user to run themselves; do not execute it.
+   2. A copy-paste `git add` command listing every file in this commit's scope, formatted
+      one file per line with `\` line continuations so it stays readable and still pastes
+      as a single command:
+
+      ```bash
+      git add \
+        path/to/first-file.ts \
+        path/to/second-file.ts
+      ```
+
+      The last path carries no trailing `\`. If the commit holds a single file, keep it on
+      one line (`git add path/to/file.ts`). Present it as a command for the user to run
+      themselves; do not execute it.
    3. **Explanation** — a plain-language note on why these files belong together and what
       the commit accomplishes.
    4. **Long form of commit message** — the full message (subject, blank line, then a body
