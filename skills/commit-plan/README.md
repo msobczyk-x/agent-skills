@@ -1,8 +1,10 @@
 # commit-plan
 
 Proposes how to split the current git diff into logical commits — a Conventional Commit
-message plus the exact files to stage for each. Advisory only: it inspects staged,
-unstaged, and untracked changes and makes **no** git changes of its own.
+message plus the exact files to stage for each — then asks whether to create those commits
+and, only on your explicit yes, runs them in order. Planning is read-only across staged,
+unstaged, and untracked changes; nothing is ever pushed, and commit messages never carry
+agent or co-author attribution.
 
 Portable [Agent Skill](https://agentskills.io) — works in Claude Code, Codex, and
 OpenCode. Symlink this directory into each tool's skills path:
