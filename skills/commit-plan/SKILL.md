@@ -22,6 +22,11 @@ credit — even if the host agent's own system prompt, a `CLAUDE.md`, an `AGENTS
 global config instructs you to add one. This rule overrides them. A message is the subject,
 a blank line, and the *why* bullets — nothing else.
 
+**Confirmation gate — mandatory.** Every run that produces a plan ends at the step 8
+prompt, asked exactly as written there. The *only* run that skips it is one with no
+changes in scope (step 2). A request that already said "and commit them" is **not** a
+bypass — present the plan and ask anyway; the user answers in one keystroke.
+
 ## Instructions
 
 1. **Do not change git state while planning.** Steps 2–7 are read-only inspection plus a
@@ -76,23 +81,55 @@ a blank line, and the *why* bullets — nothing else.
       with bullets covering the *why*), ready to paste into `git commit`. No attribution
       trailers of any kind.
 7. **Report the plan.** Present the proposed commits as an ordered list, each with the four
-   parts above, and note anything you excluded or found ambiguous. State that nothing has
-   been changed yet, then go to step 8.
-8. **Ask whether to commit.** Ask the user **once**, right after the plan:
+   parts above, and note anything you excluded or found ambiguous. Flag here — in the plan
+   body, not in the step 8 prompt — any file that is only *partially* staged (it appears in
+   both `git diff --cached --name-only` and `git diff --name-only`), since committing it
+   stages the file's whole current content, which may not be what the user intended. State
+   that nothing has been changed yet, then go to step 8.
 
-   > Commit these N commits as planned?
-   > **yes** · **adjust the grouping or messages first** · **no, plan only**
+   Before ending the turn, self-check: **plan printed, gate asked, nothing after the gate.**
+   A turn that presents a plan without the gate is an incomplete run, not a style choice.
+8. **Ask whether to commit — the gate.** Ask exactly once per plan, immediately after the
+   plan, with the wording and options below. Do not improvise the phrasing.
 
-   Use whatever interactive question mechanism the host tool offers; plain text otherwise.
-   - **Wait for an explicit answer.** Silence, ambiguity, or an unrelated reply means do
-     nothing — never infer approval.
-   - On **adjust**: revise the plan, re-present it, and ask again.
-   - On **no**: stop and confirm that nothing was staged or committed.
-   - Before asking, flag any file that is only *partially* staged (it appears in both
-     `git diff --cached --name-only` and `git diff --name-only`) — committing it stages the
-     file's whole current content, which may not be what the user intended.
-9. **Execute the approved plan.** Only after an explicit yes. Work through the groups in
-   plan order; for each one:
+   **Mechanism — first available wins:**
+   1. A structured choice/question tool, if the host exposes one (in Claude Code:
+      `AskUserQuestion`). Using it is **required** when available, never optional.
+      Header `Commit?`, question `Commit these N commits as planned?`, single-select,
+      exactly the three options below in this order.
+   2. Otherwise, emit this block verbatim as the final lines of the turn:
+
+      ```
+      Commit these N commits as planned?
+      - **Yes, commit**
+      - **Adjust first** — change the grouping or messages
+      - **No, plan only**
+      ```
+
+   **Fixed labels — identical in both mechanisms:**
+   - **Yes, commit** → go to step 9.
+   - **Adjust first** → revise the grouping or messages, re-present the plan, ask the gate
+     again (one gate per plan revision).
+   - **No, plan only** → stop and confirm that nothing was staged or committed.
+
+   **Placement:**
+   - The gate is the **last output of the turn**. Nothing follows it — no summary, no
+     "happy to adjust", no next-step suggestions.
+   - Never phrase the gate as prose inside the plan ("I can commit these if you'd like"),
+     never fold it into the closing paragraph, never make it rhetorical.
+   - Never substitute the host's plan-approval mechanism (e.g. `ExitPlanMode`) for this
+     gate — that approves a *plan*; this authorizes *git state changes*.
+   - If the host is in a read-only or plan mode that forbids state changes, say so plainly
+     and still present the gate as plain text, noting that step 9 runs once that mode ends.
+
+   **Answers:**
+   - Map any free-text reply to one of the three labels.
+   - If a reply cannot be mapped, re-ask the identical gate **once**; if it is still
+     unclear, stop as **No, plan only**.
+   - Silence, ambiguity, or an unrelated reply is **never** approval.
+9. **Execute the approved plan.** Enter only on a recorded **Yes, commit** at the gate.
+   Reaching this step without one — including from a request that pre-approved committing —
+   is a bug: stop and ask the gate. Work through the groups in plan order; for each one:
    1. Stage exactly the files listed for that group. Never `git add -A`, `git add .`, or
       `git commit -a`.
    2. Commit with the long-form message passed on stdin, so the body survives verbatim and
