@@ -15,6 +15,12 @@ OpenCode with no per-tool duplication.
 | [`precommit-simplify`](skills/precommit-simplify/) | Runs `code-simplify` then `cleanup-comments` over staged changes before a commit. |
 | [`pragmatic-review`](skills/pragmatic-review/) | Senior-engineer code review of the branch diff against DRY/YAGNI/SOLID/Pragmatic Programmer; delegates to Vercel React skills for React/RN. |
 | [`commit-plan`](skills/commit-plan/) | Propose logical commits from the current diff — a Conventional Commit message + the files to stage for each — then create them on your confirmation. No pushes, no agent attribution in messages. |
+| [`security-harden`](skills/security-harden/) | Scan a repo's security measures (CI/CD, secrets, containers, dependency updates, governance) against a current baseline, report gaps, and apply confirmed fixes; delegates to the language subskills below. |
+| [`security-harden-js`](skills/security-harden-js/) | JS/TS supply-chain hardening (pnpm/npm/yarn/bun) plus Node API and web-app security checks. |
+| [`security-harden-python`](skills/security-harden-python/) | Python supply-chain hardening (uv/pip/poetry): locked installs, pip-audit, Bandit, Semgrep. |
+| [`security-harden-go`](skills/security-harden-go/) | Go supply-chain hardening: `go mod verify`, read-only builds, govulncheck, gosec. |
+| [`security-harden-jvm`](skills/security-harden-jvm/) | Java/Kotlin hardening: Gradle locking + verification metadata / Maven enforcer, Dependency-Check. |
+| [`security-harden-rust`](skills/security-harden-rust/) | Rust hardening: `--locked` builds, cargo-deny, cargo-audit, clippy. |
 
 ## Install
 
